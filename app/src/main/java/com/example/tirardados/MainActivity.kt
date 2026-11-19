@@ -54,7 +54,6 @@ class MainActivity : AppCompatActivity() {
         binding.imgCubilete.setOnClickListener {
             val textoNumero = binding.etNumero.text.toString()
 
-            // 1. Comprobamos que haya escrito un número entre 3 y 18
             if (textoNumero.isEmpty()) {
                 showMSG("Introduce un número entre 3 y 18")
                 return@setOnClickListener
@@ -68,13 +67,11 @@ class MainActivity : AppCompatActivity() {
 
             numeroUsuario = num
 
-            // 3. Bloqueamos el cubilete y el campo de texto hasta que termine
             binding.imgCubilete.isEnabled = false
             binding.imgCubilete.alpha = 0.5f
             binding.etNumero.isEnabled = false
             binding.txtResultado.visibility = View.INVISIBLE
 
-            // Lanzamos la corrutina en el hilo Main para poder actualizar la UI
             CoroutineScope(Dispatchers.Main).launch {
                 for (i in 1..4) {
                     esperarTiempo(1000)
@@ -87,7 +84,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // Función suspendible que hace la espera en el hilo IO para no bloquear la interfaz
     private suspend fun esperarTiempo(milisegundos: Long) {
         withContext(Dispatchers.IO) {
             delay(milisegundos)
@@ -121,12 +117,10 @@ class MainActivity : AppCompatActivity() {
         binding.txtResultado.text = suma.toString()
         binding.txtResultado.visibility = View.VISIBLE
 
-        // 3. Volvemos a activar el cubilete y el EditText
         binding.imgCubilete.isEnabled = true
         binding.imgCubilete.alpha = 1.0f
         binding.etNumero.isEnabled = true
 
-        // 2. Comprobamos si el programa ha acertado el número
         if (suma == numeroUsuario) {
             mostrarDialogoAcierto()
         } else {
